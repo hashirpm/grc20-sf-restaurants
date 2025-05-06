@@ -1,11 +1,11 @@
 # GRC20 SF Restaurant Scraper 
 
-This project scrapes restaurant data in San Francisco and uploads it to a Geo Browser space using the GRC20-ts library. 
+This project scrapes restaurant data in San Francisco and uploads it to a Geo Browser space using the GRC20 library. 
 
 ## What I Have Done  
 
 1. **Created a Space**  
-    - I created a space in the Geo Browser to store the scraped restaurant data.  
+    - I created a space in the Geo Browser using GRC20 Library.  
     - **Space ID**: `EWysNefhXimrbsCf1oR5Ky`  
 
 2. **Implemented the Scraper**  
