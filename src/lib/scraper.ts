@@ -1,12 +1,10 @@
 import * as puppeteer from "puppeteer";
-import * as fs from "fs";
-import * as path from "path";
 import { Restaurant } from "../interface/Restaurant";
 
 export async function scrapeEater(): Promise<Restaurant[]> {
   console.log("Launching browser...");
   const browser = await puppeteer.launch({
-    headless: true, // Set to true for headless mode
+    headless: true, 
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
   });
 
@@ -94,7 +92,7 @@ export async function scrapeEater(): Promise<Restaurant[]> {
           const imageElement = card.querySelector(".c-mapstack__photo img");
           const image = imageElement?.getAttribute("src") || "";
 
-          // Add this restaurant to our valid restaurants array
+          // Add this restaurant to valid restaurants array
           validRestaurants.push({
             name,
             description,

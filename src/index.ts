@@ -10,31 +10,31 @@ import {
   SPACE_ID,
 } from "./lib/const";
 import { submitAndSendTransaction } from "./lib/transaction";
+
 dotenv.config();
 
 async function main() {
   try {
+    const allOps: Array<Op> = []; // Array to hold all operations
+
+    //Scrape restaurants from Eater
     const restaurants = await scrapeEater();
-    // const restaurant = {
-    //   name: "Abacá",
-    //   description:
-    //     "When Francis Ang opened the doors to his Kimpton Alton Hotel restaurant in Fisherman’s Wharf, the city already knew it was the breath of fresh seabreeze air diners needed. In short order his Pinoy heritage cooking drew eaters to the otherwise-for-tourists neighborhood: sisig fried rice with poached egg and pickled onions, adobo-glazed yuba skin barbecue skewer, American wagyu beef pares with parsnip and soy beef jus. Ang was a pop-up phenom before rolling out the chic bar and restaurant in 2021. The vibe is fancy but accessible; this is not a suit-and-tie restaurant, though that wouldn’t be overdressing, either. Breakfast here is geared to tourists — though a $6 bibingka rice cake with caramelized brie and salted egg is awesome any day — whereas brunch is a San Francisco-wide weekend affair. Reservations are bookable here.",
-    //   address: "2700 Jones St, San Francisco, CA 94133",
-    //   phone: "(415) 486-0788",
-    //   website: "http://www.restaurantabaca.com/",
-    //   image:
-    //     "https://cdn.vox-cdn.com/thumbor/44lTkiD0ceq2seBDl71UhiYxE7c=/0x0:2000x1333/1200x900/filters:focal(840x507:1160x827):no_upscale()/cdn.vox-cdn.com/uploads/chorus_image/image/71100690/Abaca_PChang_0829.0.jpg",
-    // };
-    const allOps: Array<Op> = [];
+
+    // Create Restaurant properties
     const propertyData = createRestaurantProperties();
+
     console.log({ propertyData });
-    let { ops } = propertyData;
-    allOps.push(...ops);
+
+    allOps.push(...propertyData.ops);
+
+    // Iterate over the scraped restaurants
     for (const restaurant of restaurants) {
+      // Create a cover image for the restaurant
       const coverImageData = await createCoverImage(restaurant.image);
-      console.log({ coverImageData });
+
       allOps.push(...coverImageData.ops);
-      // Create restaurant entity for Abacá
+
+      // Create restaurant entity
       const { id: restaurantId, ops: createRestaurantOps } = Graph.createEntity(
         {
           name: restaurant.name,
@@ -68,12 +68,15 @@ async function main() {
       console.log(`Restaurant entity created with ID: ${restaurantId}`);
       allOps.push(...createRestaurantOps);
     }
+
+    // Publish the edit to IPFS
     const { cid } = await Ipfs.publishEdit({
       name: "Add Restaurant",
-      ops: ops,
+      ops: allOps,
       author: AUTHOR,
     });
     console.log(`Edit published to IPFS with CID: ${cid}`);
+
     // Fetch calldata
     const calldataResponse = await fetch(
       `${GRC20_API_URL}/space/${SPACE_ID}/edit/calldata`,
@@ -109,12 +112,14 @@ async function main() {
 
     const { to, data: calldata } = responseJson;
 
+    // Submit and send the transaction to the blockchain
     const txResult = await submitAndSendTransaction({
       to: to,
       data: calldata,
       cid: cid,
     });
     console.log(`Transaction sent: ${txResult.txHash}`);
+    process.exit(0);
   } catch (error) {
     console.error("Error in main function:", error);
   }
