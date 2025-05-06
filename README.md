@@ -15,6 +15,12 @@ This project scrapes restaurant data in San Francisco and uploads it to a Geo Br
 3. **Created Entities**  
     - Creates entities with the Restaurant Type ID `A9QizqoXSqjfPUBjLoPJa2`  
 
+4. **Published to IPFS**
+    - Edit published to IPFS with CID `ipfs://bafkreigbh2cm5vdwc2qdb73tt3hksioazxse6tptbncrksnsgwgh6tkab4`
+    
+5. **Published the edit onchain**
+    - Transaction Hash  `0x2ea5b021777c4e8367bcbfc3ad1a7db17663dcf081870dd55e40c56611428dca`
+
 ## How to Use  
 
 1. Clone the repository:  
