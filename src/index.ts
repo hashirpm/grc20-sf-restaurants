@@ -6,6 +6,7 @@ import { Graph, Ipfs, Op } from "@graphprotocol/grc-20";
 import {
   AUTHOR,
   GRC20_API_URL,
+  PROPERTY_IDS,
   RESTAURANT_TYPE_ID,
   SPACE_ID,
 } from "./lib/const";
@@ -19,13 +20,6 @@ async function main() {
 
     //Scrape restaurants from Eater
     const restaurants = await scrapeEater();
-
-    // Create Restaurant properties
-    const propertyData = createRestaurantProperties();
-
-    console.log({ propertyData });
-
-    allOps.push(...propertyData.ops);
 
     // Iterate over the scraped restaurants
     for (const restaurant of restaurants) {
@@ -42,23 +36,23 @@ async function main() {
           cover: coverImageData.id,
           types: [RESTAURANT_TYPE_ID],
           properties: {
-            [propertyData.namePropertyId]: {
+            [PROPERTY_IDS.namePropertyId]: {
               type: "TEXT",
               value: restaurant.name,
             },
-            [propertyData.descriptionPropertyId]: {
+            [PROPERTY_IDS.descriptionPropertyId]: {
               type: "TEXT",
               value: restaurant.description,
             },
-            [propertyData.addressPropertyId]: {
+            [PROPERTY_IDS.addressPropertyId]: {
               type: "TEXT",
               value: restaurant.address,
             },
-            [propertyData.phonePropertyId]: {
+            [PROPERTY_IDS.phonePropertyId]: {
               type: "TEXT",
               value: restaurant.phone,
             },
-            [propertyData.websitePropertyId]: {
+            [PROPERTY_IDS.websitePropertyId]: {
               type: "URL",
               value: restaurant.website,
             },
