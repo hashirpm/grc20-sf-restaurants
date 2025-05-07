@@ -10,7 +10,7 @@ This project scrapes restaurant data in San Francisco and uploads it to a Geo Br
 
 2. **Implemented the Scraper**  
     - The scraper collects restaurant information such as name, location, and other relevant details from a website.
-    - **Link to Code**: The scraper implementation can be found in the [`scraper.ts`](./src/scraper.ts) file.
+    - **Link to Code**: The scraper implementation can be found in the [`scraper.ts`](./src/lib/scraper.ts) file.
 
 3. **Created Entities**  
     - Creates entities with the Restaurant Type ID `A9QizqoXSqjfPUBjLoPJa2`  
