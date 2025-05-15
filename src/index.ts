@@ -1,16 +1,16 @@
 import dotenv from "dotenv";
 import { scrapeEater } from "./lib/scraper";
-import { createRestaurantProperties } from "./lib/properties";
 import { createCoverImage } from "./lib/image";
 import { Graph, Ipfs, Op } from "@graphprotocol/grc-20";
 import {
   AUTHOR,
   GRC20_API_URL,
-  PROPERTY_IDS,
   RESTAURANT_TYPE_ID,
   SPACE_ID,
 } from "./lib/const";
 import { submitAndSendTransaction } from "./lib/transaction";
+import { ADDRESS_PROPERTY, DESCRIPTION_PROPERTY, NAME_PROPERTY, PHONE_NUMBER_PROPERTY } from "@graphprotocol/grc-20/dist/src/core/ids/system";
+import { WEBSITE_PROPERTY } from "@graphprotocol/grc-20/dist/src/core/ids/content";
 
 dotenv.config();
 
@@ -36,23 +36,23 @@ async function main() {
           cover: coverImageData.id,
           types: [RESTAURANT_TYPE_ID],
           properties: {
-            [PROPERTY_IDS.namePropertyId]: {
+            [NAME_PROPERTY]: {
               type: "TEXT",
               value: restaurant.name,
             },
-            [PROPERTY_IDS.descriptionPropertyId]: {
+            [DESCRIPTION_PROPERTY]: {
               type: "TEXT",
               value: restaurant.description,
             },
-            [PROPERTY_IDS.addressPropertyId]: {
+            [ADDRESS_PROPERTY]: {
               type: "TEXT",
               value: restaurant.address,
             },
-            [PROPERTY_IDS.phonePropertyId]: {
+            [PHONE_NUMBER_PROPERTY]: {
               type: "TEXT",
               value: restaurant.phone,
             },
-            [PROPERTY_IDS.websitePropertyId]: {
+            [WEBSITE_PROPERTY]: {
               type: "URL",
               value: restaurant.website,
             },
